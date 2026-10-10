@@ -99,6 +99,15 @@ export class GeoService {
     return find(this.provinceIndex, lat, lon);
   }
 
+  /** Regione dal codice ISTAT (undefined finché i confini non sono arrivati). */
+  regionFeature(code: number | null | undefined): Feature<RegionProps> | undefined {
+    return this.regions.hasValue() ? this.regions.value().features.find(f => f.properties.reg_istat_code_num === code) : undefined;
+  }
+
+  provinceFeature(code: number | null | undefined): Feature<ProvinceProps> | undefined {
+    return this.provinces.hasValue() ? this.provinces.value().features.find(f => f.properties.prov_istat_code_num === code) : undefined;
+  }
+
   provincesOf(regionCode: number): Feature<ProvinceProps>[] {
     if (!this.provinces.hasValue()) return [];
     return this.provinces

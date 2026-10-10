@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, catchError, forkJoin, map, of, retry, switchMap, tap, throwError, timeout, timer } from 'rxjs';
+import { Observable, catchError, map, of, retry, switchMap, tap, throwError, timeout, timer } from 'rxjs';
 import type { Topology } from 'topojson-specification';
 import { AlertZone, latestBulletinId, zonesFromTopo } from './alerts';
 import { Climate, HistQuake, WikiFacts, parseIngvText, parseOverpassCounts, parsePower, parseWikiFacts } from './history';
@@ -25,8 +25,6 @@ import {
   toReversePlace,
 } from './parsers';
 
-export type { DatasetHit, Forecast, NowWeather, Place, Quake, SeriesPoint } from './parsers';
-
 /**
  * Tutte le chiamate alle API pubbliche in un solo posto. Nessuna chiave richiesta.
  * CORS verificato a ottobre 2026: tutte mandano Access-Control-Allow-Origin: *
@@ -44,7 +42,7 @@ export interface QuakeQuery {
 }
 
 /** Massimo di eventi chiesti per richiesta. */
-export const QUAKE_LIMIT = 500;
+const QUAKE_LIMIT = 500;
 
 /** Riquadro dell'Italia: il catalogo INGV contiene anche i grandi terremoti nel mondo. */
 const ITALY_BBOX = { minlatitude: 35, maxlatitude: 48, minlongitude: 6, maxlongitude: 19 };
@@ -57,7 +55,7 @@ const FDSN = {
 
 const DPC_RAW = 'https://raw.githubusercontent.com/pcm-dpc/DPC-Bollettini-Criticita-Idrogeologica-Idraulica/master';
 
-export interface DpcBulletin {
+interface DpcBulletin {
   name: string;
   date: string;
   today: { topo_json: string; html_descrition: string };

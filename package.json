@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "italia-hub",
   "version": "0.0.0",
   "scripts": {
@@ -15,9 +15,7 @@
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
-    "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
-    "@angular/router": "^21.2.0",
     "@types/leaflet": "^1.9.22",
     "leaflet": "^1.9.4",
     "rxjs": "~7.8.0",
