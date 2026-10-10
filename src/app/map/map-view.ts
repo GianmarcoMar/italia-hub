@@ -19,7 +19,7 @@ import { AlertsService } from '../core/alerts.service';
 import { Comune, metricById } from '../core/census';
 import { CensusService, ComuneProps } from '../core/census.service';
 import { ChoroplethService } from '../core/choropleth.service';
-import { DEPTH_LEGEND, depthColor } from '../core/format';
+import { DEPTH_LEGEND } from '../core/format';
 import { Feature, FeatureCollection, GeoService, ProvinceProps, RegionProps } from '../core/geo.service';
 import { ITALY_BOUNDS, REGIONS, Region } from '../core/italy';
 import { LocationService } from '../core/location.service';
@@ -29,76 +29,9 @@ import { SelectionService } from '../core/selection.service';
 import { CapitalsWeatherStore, QuakeStore } from '../core/stores';
 import { ThemeService } from '../core/theme.service';
 import { weatherIcon, weatherLabel } from '../core/weather';
-
-/** Zoom e livello del clic: sotto 7 regione, da 7 a 9 provincia, da 9 comune. */
-const DRILL_ZOOM = 7;
-const COMUNE_ZOOM = 9;
+import { COMUNE_ZOOM, CanvasGeoJSONOptions, DRILL_ZOOM, FAR_ZOOM, PRIORITY, alertTip, comuneStyle, cssVar, quakeStyle, quakeTip, tip } from './map-helpers';
 
 const ALL_REGIONS = REGIONS.map(r => r.code);
-
-/**
- * Opzioni GeoJSON con renderer: Leaflet le passa a ogni poligono (che accetta `renderer`),
- * ma i tipi di GeoJSONOptions non lo dichiarano.
- */
-type CanvasGeoJSONOptions<P> = L.GeoJSONOptions<P> & { renderer?: L.Renderer };
-
-/** Valore di una variabile CSS del tema (il canvas di Leaflet vuole colori espliciti). */
-function cssVar(name: string): string {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#2dd4bf';
-}
-
-/**
- * Stile di un comune: riempito dalla coropleta, bordo forte se selezionato.
- * Da lontano i bordi quasi spariscono, altrimenti 7.896 contorni coprono i colori.
- */
-function comuneStyle(fill: string | undefined, selected: boolean, accent: string, line: string, zoom = 9): L.PathOptions {
-  const far = zoom < 8;
-  return {
-    color: selected ? accent : line,
-    weight: selected ? 2.5 : far ? (fill ? 0 : 0.3) : 0.6,
-    opacity: 1,
-    fill: true,
-    fillColor: fill ?? accent,
-    fillOpacity: fill ? (far ? 0.78 : 0.68) : selected ? 0.12 : 0,
-  };
-}
-
-/** Tooltip di una zona d'allerta (testo dal bollettino, mai come HTML). */
-function alertTip(z: AlertZone): HTMLElement {
-  const el = document.createElement('div');
-  el.className = 'qtip';
-  const t = document.createElement('strong');
-  t.textContent = z.name;
-  const s = document.createElement('span');
-  s.textContent = z.level ? z.summary : ALERT_LABEL[0];
-  el.append(t, s);
-  return el;
-}
-
-/** Codici ISTAT delle regioni in ordine di popolazione del capoluogo: chi vince quando le etichette si toccano. */
-const PRIORITY = [12, 3, 15, 1, 19, 7, 8, 9, 16, 5, 20, 6, 10, 18, 11, 4, 17, 13, 14, 2];
-
-/** Tooltip costruito come DOM: il testo che arriva dall'API non viene mai interpretato come HTML. */
-function quakeTip(q: Quake): HTMLElement {
-  const el = document.createElement('div');
-  el.className = 'qtip';
-  const title = document.createElement('strong');
-  title.textContent = `M ${q.mag.toFixed(1)} · ${q.place}`;
-  const meta = document.createElement('span');
-  meta.textContent = `${new Date(q.time).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' })}${
-    q.depthKm === null ? '' : ` · ${q.depthKm.toFixed(0)} km`
-  }`;
-  el.append(title, meta);
-  return el;
-}
-
-const quakeStyle =(q: Quake, hot: boolean): L.CircleMarkerOptions => ({
-  radius: Math.max(3, 2 + q.mag * 2.2),
-  color: depthColor(q.depthKm),
-  fillColor: depthColor(q.depthKm),
-  fillOpacity: hot ? 0.85 : 0.3,
-  weight: hot ? 3 : 1.5,
-});
 
 @Component({
   selector: 'app-map',
@@ -201,7 +134,7 @@ export class MapView {
   private highlightRegion = computed(() => {
     const s = this.sel.selected();
     if (s.kind === 'region') return s.code;
-    if (s.kind === 'province') return this.provinceFeature(s.code)?.properties.reg_istat_code_num ?? null;
+    if (s.kind === 'province') return this.geo.provinceFeature(s.code)?.properties.reg_istat_code_num ?? null;
     if (s.kind === 'comune') return this.census.comuni().get(s.code)?.reg ?? null;
     if (s.kind === 'italy') return null;
     return this.loc.regionFeature()?.properties.reg_istat_code_num ?? null;
@@ -216,7 +149,7 @@ export class MapView {
   });
 
   /** Vista da lontano: cambia solo al passaggio della soglia, non a ogni livello di zoom. */
-  private farView = computed(() => this.zoom() < 8);
+  private farView = computed(() => this.zoom() < FAR_ZOOM);
 
   private selectedComune = computed(() => {
     const s = this.sel.selected();
@@ -232,16 +165,7 @@ export class MapView {
     return reg !== null && (this.zoom() >= COMUNE_ZOOM - 1 || kind === 'comune' || kind === 'province') ? [reg] : [];
   });
 
-  private provinceFeature(code: number) {
-    return this.geo.provinces.hasValue() ? this.geo.provinces.value().features.find(f => f.properties.prov_istat_code_num === code) : undefined;
-  }
-
-  protected selectedRegionName = computed(() => {
-    const code = this.highlightRegion();
-    return this.geo.regions.hasValue()
-      ? (this.geo.regions.value().features.find(f => f.properties.reg_istat_code_num === code)?.properties.reg_name ?? null)
-      : null;
-  });
+  protected selectedRegionName = computed(() => this.geo.regionFeature(this.highlightRegion())?.properties.reg_name ?? null);
 
   constructor() {
     afterNextRender(() => this.init());
@@ -327,7 +251,7 @@ export class MapView {
         for (const layer of this.comuniLayers.values()) {
           layer.eachLayer(l => {
             const k = (l as L.GeoJSON & { feature: Feature<ComuneProps> }).feature.properties.k;
-            (l as L.Path).setStyle(comuneStyle(fills.get(k), k === sel, accent, line, far ? 5 : 9));
+            (l as L.Path).setStyle(comuneStyle(fills.get(k), k === sel, accent, line, far));
           });
         }
         if (sel) this.bringComuneToFront(sel);
@@ -605,18 +529,10 @@ export class MapView {
 
   private comuneTip(p: ComuneProps): HTMLElement {
     const c = this.census.comuni().get(p.k);
-    const el = document.createElement('div');
-    el.className = 'qtip';
-    const t = document.createElement('strong');
-    t.textContent = `${p.n} (${p.s})`;
-    el.append(t);
-    if (c?.pop) {
-      const s = document.createElement('span');
-      const metric = this.choro.mode().startsWith('c:') ? this.metricText(c) : '';
-      s.textContent = `${c.pop.toLocaleString('it-IT')} ab · ${c.area.toLocaleString('it-IT', { maximumFractionDigits: 1 })} km²${metric}`;
-      el.append(s);
-    }
-    return el;
+    const title = `${p.n} (${p.s})`;
+    if (!c?.pop) return tip(title);
+    const metric = this.choro.mode().startsWith('c:') ? this.metricText(c) : '';
+    return tip(title, `${c.pop.toLocaleString('it-IT')} ab · ${c.area.toLocaleString('it-IT', { maximumFractionDigits: 1 })} km²${metric}`);
   }
 
   /** Valore della coropleta comunale attiva per il tooltip. */

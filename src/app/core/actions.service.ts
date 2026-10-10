@@ -31,17 +31,13 @@ export class ActionsService {
 
   focusRegion(code: number) {
     this.sel.selectRegion(code);
-    const f = this.geo.regions.hasValue()
-      ? this.geo.regions.value().features.find(x => x.properties.reg_istat_code_num === code)
-      : undefined;
+    const f = this.geo.regionFeature(code);
     if (f) this.mapSvc.fitBox(bbox(f.geometry));
   }
 
   focusProvince(code: number) {
     this.sel.selectProvince(code);
-    const f = this.geo.provinces.hasValue()
-      ? this.geo.provinces.value().features.find(x => x.properties.prov_istat_code_num === code)
-      : undefined;
+    const f = this.geo.provinceFeature(code);
     if (f) this.mapSvc.fitBox(bbox(f.geometry));
   }
 
@@ -58,11 +54,6 @@ export class ActionsService {
     const f = this.census.featureOf(c.k);
     if (f) this.mapSvc.fitBox(bbox(f.geometry));
     else this.mapSvc.flyTo(c.y, c.x, 12);
-  }
-
-  focusComuneByCode(k: string) {
-    const c = this.census.comuni().get(k);
-    if (c) this.focusComune(c);
   }
 
   focusItaly() {

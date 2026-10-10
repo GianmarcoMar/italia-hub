@@ -89,9 +89,7 @@ export class RegionEntity {
   }
 
   protected region = computed(() => regionByCode(this.code()));
-  private feature = computed(() =>
-    this.geo.regions.hasValue() ? (this.geo.regions.value().features.find(f => f.properties.reg_istat_code_num === this.code()) ?? null) : null,
-  );
+  private feature = computed(() => this.geo.regionFeature(this.code()) ?? null);
   protected provinces = computed(() => this.geo.provincesOf(this.code()));
   protected comuni = computed(() => this.census.byRegion().get(this.code()) ?? []);
   protected quakeStats = computed(() => this.analysis.quakesByRegion().get(this.code()));

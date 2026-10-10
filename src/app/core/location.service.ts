@@ -8,7 +8,7 @@ import { Place, isPlace } from './parsers';
 const KEY = 'italia-hub:place';
 
 /** Nome provvisorio di un punto cliccato, finché (e se) Nominatim non trova un luogo. */
-export const POINT_NAME = 'Punto selezionato';
+const POINT_NAME = 'Punto selezionato';
 const DEFAULT: Place = { name: 'Roma', detail: 'Lazio, Italia', lat: 41.8919, lon: 12.5113, nameEn: 'Rome' };
 
 const sameCoords = (a: { lat: number; lon: number }, b: { lat: number; lon: number }) => a.lat === b.lat && a.lon === b.lon;

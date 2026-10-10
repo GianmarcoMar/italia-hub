@@ -340,9 +340,7 @@ export class ComuneEntity {
   protected regionName = computed(() => regionByCode(this.c()?.reg)?.name ?? '');
   protected provinceName = computed(() => {
     const p = this.c()?.prov;
-    return this.geo.provinces.hasValue()
-      ? (this.geo.provinces.value().features.find(f => f.properties.prov_istat_code_num === p)?.properties.prov_name ?? '')
-      : '';
+    return this.geo.provinceFeature(p)?.properties.prov_name ?? '';
   });
 
   protected popYears = computed(() => this.census.meta()?.popYears ?? []);

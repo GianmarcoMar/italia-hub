@@ -71,7 +71,7 @@ export class CapitalsWeatherStore {
   }
 }
 
-export const QUAKE_RADIUS_KM = 100;
+const QUAKE_RADIUS_KM = 100;
 
 /** Filtri, finestra temporale e risultati dei terremoti: pannelli e timeline li modificano, la mappa li disegna. */
 @Injectable({ providedIn: 'root' })
