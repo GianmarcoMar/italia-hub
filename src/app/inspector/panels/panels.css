@@ -1,0 +1,218 @@
+/* Stile comune ai pannelli dell'inspector (tempo reale, demografia, economia, storico). */
+:host {
+  display: grid;
+  gap: 14px;
+}
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.tiles.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.tile {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  padding: 9px 10px;
+  background: var(--surface);
+  min-width: 0;
+}
+.tile .label {
+  margin: 0;
+  font-size: 0.6rem;
+}
+.big {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+.big b {
+  color: var(--accent);
+}
+.big small {
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.big .ico {
+  font-size: 1.2rem;
+}
+.sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  align-self: center;
+}
+.delta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+.delta.up {
+  color: var(--ok);
+}
+.delta.down {
+  color: var(--danger);
+}
+.alert-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+}
+.alert-row .day {
+  width: 46px;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+.lvl {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.pill {
+  padding: 0 5px;
+  border-radius: 2px;
+  color: #111;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.detail {
+  display: grid;
+  gap: 6px;
+}
+.detail .label {
+  margin: 0;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.72rem;
+}
+.chips span {
+  padding: 2px 7px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+.chips b {
+  color: var(--text);
+}
+.chips .pollen {
+  border-color: var(--warn);
+}
+.rel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.rel li {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 8px;
+  padding: 4px 2px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.72rem;
+}
+.rel .txt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* confronto con i livelli superiori */
+.cmp {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+.cmp th,
+.cmp td {
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+.cmp th:first-child,
+.cmp td:first-child {
+  text-align: left;
+  color: var(--muted);
+}
+.cmp th {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cmp td {
+  font-family: var(--mono);
+}
+.cmp td.me {
+  color: var(--accent);
+  font-weight: 600;
+}
+.ranks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.ranks b {
+  font-family: var(--mono);
+  color: var(--text);
+}
+.fresh {
+  margin: 0;
+  font-size: 0.64rem;
+  color: var(--faint);
+}
+.note {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--faint);
+}
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.stack-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.legend-row i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-radius: 1px;
+}
+button.load {
+  justify-self: start;
+}

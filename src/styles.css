@@ -1,0 +1,305 @@
+/*
+ * Token della console. Scuro di default; chiaro con <html data-theme="light"> (ThemeService).
+ * Tutti i colori dell'app passano da qui.
+ */
+:root {
+  --bg: #0b0f14;
+  --surface: #111821;
+  --surface-2: #16202b;
+  --glass: rgb(13 19 26 / 0.88);
+  --text: #d6dee8;
+  --muted: #7b8898;
+  --faint: #4b5868;
+  --line: #1e2935;
+  --line-strong: #2a3846;
+  --hover: #1a2531;
+  --accent: #2dd4bf;
+  --accent-ink: #04201c; /* testo sopra l'accento */
+  --accent-soft: rgb(45 212 191 / 0.12);
+  --warn: #f5a524;
+  --warn-soft: rgb(245 165 36 / 0.12);
+  --danger: #f43f5e;
+  --danger-soft: rgb(244 63 94 / 0.12);
+  --ok: #34d399;
+  --map-bg: #0b0f14;
+  --geo-line: rgb(45 212 191 / 0.55);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 10px 30px rgb(0 0 0 / 0.55);
+  --radius: 4px;
+  --mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Consolas, Menlo, monospace;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  --bg: #e9edf1;
+  --surface: #ffffff;
+  --surface-2: #f4f6f8;
+  --glass: rgb(255 255 255 / 0.9);
+  --text: #111a24;
+  --muted: #5a6676;
+  --faint: #98a3b1;
+  --line: #d7dde4;
+  --line-strong: #c3ccd6;
+  --hover: #eef2f5;
+  --accent: #0d9488;
+  --accent-ink: #ffffff;
+  --accent-soft: rgb(13 148 136 / 0.1);
+  --warn: #c2700c;
+  --warn-soft: rgb(194 112 12 / 0.1);
+  --danger: #e11d48;
+  --danger-soft: rgb(225 29 72 / 0.08);
+  --ok: #059669;
+  --map-bg: #dfe6ea;
+  --geo-line: rgb(13 148 136 / 0.65);
+  --shadow-sm: 0 1px 3px rgb(16 24 40 / 0.1);
+  --shadow-md: 0 8px 26px rgb(16 24 40 / 0.16);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+h1 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 650;
+}
+h2 {
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+/* micro-etichette di sezione */
+h3,
+.label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+p {
+  margin: 0 0 8px;
+}
+a {
+  color: var(--accent);
+}
+.mono {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  letter-spacing: -0.01em;
+}
+kbd {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 1px 5px;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  color: var(--muted);
+}
+
+input,
+select,
+button.btn {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--text);
+}
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 1px;
+}
+button.btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 650;
+  cursor: pointer;
+}
+button.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button.ghost {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 4px 9px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+button.ghost:hover {
+  background: var(--hover);
+}
+button.ghost.on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+/* bottone che sembra un link, per azioni dentro una frase ("riprova") */
+button.link {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.stack {
+  display: grid;
+  gap: 10px;
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 0.8rem;
+}
+.err {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-left: 2px solid var(--danger);
+  padding: 8px 10px;
+  font-size: 0.85rem;
+}
+.badge {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 2px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin: 0 4px 4px 0;
+}
+/* etichetta del tipo di entità: [EVENTO SISMICO], [REGIONE] */
+.tag {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tag.warn {
+  color: var(--warn);
+}
+.tag.alarm {
+  color: var(--danger);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+/* tabella proprietà chiave/valore dell'inspector */
+.props {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  margin: 0;
+  font-size: 0.82rem;
+}
+.props dt,
+.props dd {
+  margin: 0;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+}
+.props dt {
+  color: var(--muted);
+  padding-right: 16px;
+}
+.props dd {
+  font-family: var(--mono);
+  text-align: right;
+}
+/* segnaposto durante il caricamento */
+.skeleton {
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--surface), var(--hover), var(--surface));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

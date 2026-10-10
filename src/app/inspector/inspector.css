@@ -1,0 +1,70 @@
+/* Il pannello fluttua sulla mappa: posizione e dimensioni sono decise da app.css */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.crumbs {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+.crumbs button {
+  font: inherit;
+  padding: 1px 3px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crumbs button:hover {
+  color: var(--text);
+}
+.crumbs .on {
+  color: var(--accent);
+}
+.close {
+  flex: none;
+  width: 34px;
+  align-self: stretch;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: none;
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.close:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 14px 28px;
+  overscroll-behavior: contain;
+}

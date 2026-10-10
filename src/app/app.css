@@ -1,0 +1,263 @@
+/* La mappa riempie lo schermo; tutto il resto fluttua sopra (z-index sopra i controlli Leaflet, sotto la palette). */
+:host {
+  --gap: 10px;
+  --bar-h: 44px;
+  --panel-top: 64px;
+  --time-bottom: 28px;
+  --time-h: 84px;
+  /* ingombro dei pannelli, letto da map-view.css per spostare zoom e attribuzione */
+  --right-inset: 0px;
+  --bottom-inset: 126px;
+  position: relative;
+  display: block;
+  height: 100dvh;
+  overflow: hidden;
+}
+:host(.has-panel) {
+  --right-inset: 450px;
+}
+
+.map-area {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---------- barra in alto ---------- */
+.topbar {
+  position: absolute;
+  top: var(--gap);
+  left: var(--gap);
+  right: var(--gap);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--bar-h);
+  padding: 0 8px 0 12px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+.name b {
+  color: var(--accent);
+  font-weight: 700;
+}
+.flag {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.flag i {
+  flex: 1;
+}
+.flag i:nth-child(1) {
+  background: #009246;
+}
+.flag i:nth-child(2) {
+  background: #f1f2f1;
+}
+.flag i:nth-child(3) {
+  background: #ce2b37;
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.tool:hover,
+.tool[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.tool svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cmdk {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 440px;
+  margin: 0 auto;
+  min-width: 0;
+  padding: 5px 8px 5px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.cmdk:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.cmdk svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.cmdk span {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.theme {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+.theme:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- pannelli sovrapposti ---------- */
+.rail,
+.inspector {
+  position: absolute;
+  top: var(--panel-top);
+  z-index: 1050;
+  /* si fermano sopra la timeline */
+  max-height: calc(100% - var(--panel-top) - var(--time-bottom) - var(--time-h) - var(--gap));
+}
+.rail {
+  left: var(--gap);
+  width: 270px;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.rail app-feed {
+  max-height: 240px;
+}
+.inspector {
+  right: var(--gap);
+  width: min(430px, calc(100% - 2 * var(--gap)));
+}
+.timebar {
+  position: absolute;
+  left: var(--gap);
+  right: var(--gap);
+  bottom: var(--time-bottom);
+  z-index: 1050;
+  height: var(--time-h);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* schermi medi: pannelli più stretti */
+@media (max-width: 1200px) {
+  .rail {
+    width: 230px;
+  }
+  .inspector {
+    width: min(380px, calc(100% - 2 * var(--gap)));
+  }
+  :host(.has-panel) {
+    --right-inset: 400px;
+  }
+}
+@media (max-width: 1000px) {
+  app-status {
+    display: none;
+  }
+}
+
+/* ---------- mobile: il dossier diventa un foglio dal basso, i layer un cassetto ---------- */
+@media (max-width: 860px) {
+  :host {
+    --time-h: 0px;
+    --time-bottom: 0px;
+    --bottom-inset: 8px;
+  }
+  :host(.has-panel) {
+    --right-inset: 0px;
+  }
+  .cmdk kbd,
+  .name,
+  .tool span {
+    display: none;
+  }
+  .tool {
+    padding: 0 8px;
+  }
+  .timebar {
+    display: none;
+  }
+  .rail {
+    right: var(--gap);
+    width: auto;
+    max-height: 60dvh;
+  }
+  .inspector {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 58dvh;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+}
