@@ -1,5 +1,6 @@
 import { Component, HostBinding, inject } from '@angular/core';
 import { ActionsService } from './core/actions.service';
+import { Dashboard } from './dashboard/dashboard';
 import { Inspector } from './inspector/inspector';
 import { MapView } from './map/map-view';
 import { PaletteService } from './core/palette.service';
@@ -20,7 +21,7 @@ import { Timeline } from './shell/timeline';
  */
 @Component({
   selector: 'app-root',
-  imports: [MapView, Inspector, CommandPalette, Feed, LayersPanel, SourcesDialog, StatusBar, Timeline],
+  imports: [MapView, Dashboard, Inspector, CommandPalette, Feed, LayersPanel, SourcesDialog, StatusBar, Timeline],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

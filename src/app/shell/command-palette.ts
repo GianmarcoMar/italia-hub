@@ -226,6 +226,7 @@ export class CommandPalette {
   private commands = computed<Item[]>(() => {
     const q = this.quakes;
     return [
+      { id: 'analysis', group: 'Comandi', label: 'Analisi incrociata: conclusioni, grafici e correlazioni', hint: 'dashboard', run: () => this.ui.openAnalysis() },
       { id: 'italy', group: 'Comandi', label: 'Quadro nazionale (Italia)', hint: 'entità', run: () => this.actions.focusItaly() },
       { id: 'alerts', group: 'Comandi', label: 'Mostra le zone d\'allerta della Protezione Civile', hint: 'layer', run: () => this.mapSvc.showAlerts.set(true) },
       { id: 'c-alert', group: 'Comandi', label: 'Colora i comuni per allerta di oggi', hint: 'analisi', run: () => this.mapSvc.choropleth.set('c:alert') },
