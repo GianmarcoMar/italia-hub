@@ -64,9 +64,7 @@ export class ProvinceEntity {
     this.census.load();
   }
 
-  protected feature = computed(() =>
-    this.geo.provinces.hasValue() ? (this.geo.provinces.value().features.find(f => f.properties.prov_istat_code_num === this.code()) ?? null) : null,
-  );
+  protected feature = computed(() => this.geo.provinceFeature(this.code()) ?? null);
   protected region = computed(() => regionByCode(this.feature()?.properties.reg_istat_code_num));
   protected comuni = computed(() => this.census.byProvince().get(this.code()) ?? []);
   protected capital = computed(() => this.census.provinceCapitals().get(this.code()) ?? null);

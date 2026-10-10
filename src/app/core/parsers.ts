@@ -141,11 +141,6 @@ export interface DatasetHit {
   url: string;
 }
 
-export interface SeriesPoint {
-  year: number;
-  value: number;
-}
-
 // ---------- Open-Meteo geocoding ----------
 export function toPlace(x: any): Place {
   return {
@@ -212,7 +207,7 @@ export function parseUtc(t: unknown): number {
 }
 
 /** Converte una feature geojson INGV o USGS. Ritorna null se mancano le coordinate. */
-export function toQuake(f: any): Quake | null {
+function toQuake(f: any): Quake | null {
   const p = f?.properties ?? {};
   const c = f?.geometry?.coordinates;
   if (!Array.isArray(c) || !Number.isFinite(c[0]) || !Number.isFinite(c[1])) return null;

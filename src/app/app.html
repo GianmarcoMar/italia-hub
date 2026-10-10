@@ -14,6 +14,13 @@
     <span>Layer</span>
   </button>
 
+  <button type="button" class="tool" (click)="ui.openAnalysis()" [attr.aria-pressed]="ui.analysisOpen() && !ui.analysisMin()" aria-label="Analisi incrociata dei dati">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
+    </svg>
+    <span>Analisi</span>
+  </button>
+
   <button type="button" class="cmdk" (click)="palette.toggle()" aria-label="Apri ricerca e comandi">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <circle cx="11" cy="11" r="7" />
@@ -49,6 +56,11 @@
 
 @defer (on idle) {
   <app-timeline class="timebar" />
+}
+
+<!-- la dashboard (con i suoi grafici) si scarica solo alla prima apertura -->
+@defer (when ui.analysisOpen()) {
+  <app-dashboard />
 }
 
 <!-- caricate a pagina pronta: non servono al primo disegno -->

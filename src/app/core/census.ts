@@ -246,9 +246,9 @@ export const COMUNE_METRICS: ComuneMetric[] = [
 export const metricById = (id: string) => COMUNE_METRICS.find(m => m.id === id);
 
 /** Scala sequenziale leggibile su fondo scuro e chiaro (stile "inferno"). */
-export const SEQ_COLORS = ['#2c115f', '#721f81', '#b73779', '#f1605d', '#fca50a', '#fcfdbf'];
+const SEQ_COLORS = ['#2c115f', '#721f81', '#b73779', '#f1605d', '#fca50a', '#fcfdbf'];
 /** Divergente: rosso = calo, verde = crescita. */
-export const DIV_COLORS = ['#b2182b', '#ef8a62', '#fddbc7', '#d9f0d3', '#7fbf7b', '#1b7837'];
+const DIV_COLORS = ['#b2182b', '#ef8a62', '#fddbc7', '#d9f0d3', '#7fbf7b', '#1b7837'];
 const DIV_BREAKS: Record<string, number[]> = {
   popChange: [-Infinity, -5, -2, 0, 2, 5],
   incomeChange: [-Infinity, 5, 10, 15, 20, 25],

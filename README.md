@@ -26,6 +26,12 @@ in tempo reale. Niente pagine né schede: tutto sta sulla mappa. Progetto person
   in tempo reale (aria, temperatura), per regione (terremoti, temperatura). Le zone d'allerta DPC sono un layer.
 - **Timeline**: istogramma degli eventi; trascinando si isola un intervallo che filtra mappa ed elenchi; ▶ lo fa
   scorrere nel tempo.
+- **Analisi incrociata** (pulsante «Analisi» in alto): incrocia i dati di comuni, province e regioni.
+  - *Cosa emerge*: conclusioni scritte dai numeri (divario di reddito tra le aree, spopolamento dei comuni piccoli, invecchiamento, dove vivono gli stranieri, cosa si lega a cosa), ognuna con l'azione per verificarla sulla mappa o nel grafico.
+  - *Esplora i dati*: dispersione di due variabili qualsiasi (7.896 comuni colorati per macro-area, clic su un punto = dossier), retta, ρ di Spearman, r di Pearson e confronto per fasce.
+  - *Matrice delle correlazioni*, tabelle per macro-area e per dimensione dei comuni.
+  - Fonti aggiuntive su richiesta: sismicità INGV dal 1985 (M3+), clima NASA POWER delle 20 regioni, allerte di oggi: quando arrivano si aggiungono nuove conclusioni.
+  - Ogni frase nasce da un calcolo con test (`core/dashboard.spec.ts`); le correlazioni sono presentate come tali, non come cause, e con pochi dati («20 regioni») si dice che il risultato è indicativo.
 - **Palette dei comandi** (Ctrl+K o `/`): comuni, province, regioni, luoghi, eventi e comandi.
 - **Vista condivisibile**: posizione, zoom, filtri, finestra, coropleta ed entità selezionata sono nell'URL.
 - Tema scuro di default, chiaro dal pulsante in alto. Su telefono il dossier sale dal basso e i layer sono un cassetto.
